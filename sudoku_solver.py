@@ -11,6 +11,9 @@ puzzle = np.array([[0, 0, 0, 0, 6, 0, 2, 4, 3],
                     [2, 3, 8, 0, 9, 0, 0, 0, 0]])
 
 class SudokuSolver:
+
+    complete = [1, 2, 3, 4, 5, 6, 7, 8, 9]
+
     def __init__(self, puzzle: np.ndarray):
         self.puzzle = puzzle
         self._make_rows()
@@ -38,7 +41,50 @@ class SudokuSolver:
                 setattr(self, f"box_{box_num}", box.flatten())
                 box_num += 1
 
+    def solve_using_sight(self):
+        for row_index, row in enumerate(self.puzzle, start=1):
+            for col_index, cell in enumerate(row, start=1):
+                
+                if cell != 0:
+                    pass
+
+                else:
+                    can_see_no_box = np.union1d(getattr(self, f"row_{row_index}"), getattr(self, f"col_{col_index}"))
+
+                    if row_index < 4:
+                        if col_index < 4:
+                            box_num = 1
+                        elif col_index < 7:
+                            box_num = 2
+                        elif col_index < 10:
+                            box_num = 3
+                    
+                    elif row_index < 7:
+                        if col_index < 4:
+                            box_num = 4
+                        elif col_index < 7:
+                            box_num = 5
+                        elif col_index < 10:
+                            box_num = 6
+                    
+                    elif row_index < 10:
+                        if col_index < 4:
+                            box_num = 7
+                        elif col_index < 7:
+                            box_num = 8
+                        elif col_index < 10:
+                            box_num = 9
+
+                    can_see = np.union1d(can_see_no_box, getattr(self, f"box_{box_num}"))
+                    candidates = np.setdiff1d(SudokuSolver.complete, can_see)
+                    # print(f"Row Num: {row_index}")
+                    # print(f"Column Num: {col_index}")
+                    # print(f"Candidates: {candidates}")
+                    # print(f"Box Number: {box_num}")
+
 puzzle_1 = SudokuSolver(puzzle)
-print(puzzle_1.row_1)
-print(puzzle_1.col_1)
-print(puzzle_1.box_1)
+# print(puzzle_1.row_1)
+# print(puzzle_1.col_1)
+# print(puzzle_1.box_1)
+
+puzzle_1.solve_using_sight()
