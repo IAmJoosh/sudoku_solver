@@ -14,10 +14,19 @@ class SudokuSolver:
     def __init__(self, puzzle: np.ndarray):
         self.puzzle = puzzle
         self._make_rows()
+        self._make_cols()
 
     def _make_rows(self):
         for i in range(1, 10):
-            setattr(self, f"self.row_{i}", self.puzzle[i-1])
+            setattr(self, f"row_{i}", self.puzzle[i-1])
+    
+    def _make_cols(self):
+        for i in range(1, 10):
+            setattr(self, f"col_{i}", self.puzzle[:9, i-1:i].flatten())
+
+    def _make_boxes(self):
+        pass
 
 puzzle_1 = SudokuSolver(puzzle)
 print(puzzle_1.row_1)
+print(puzzle_1.col_1)
